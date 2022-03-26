@@ -7,7 +7,7 @@ while (True):
     print("====           Menu Principal           ====")
     print("============================================")
     print("====  1. Cargar Archivo De Entrada      ====")
-    print("====  2.  ====")
+    print("====  2. Mostrar Informacion Cargada    ====")
     print("====  3.       ====")
     print("====  4. Salir                          ====")
     print("============================================")
@@ -21,7 +21,14 @@ while (True):
         if Archivo != None:
             ManejadorXml.LeerArchivoXml(Archivo)
     elif menu == 2:
-        pass
+        print("\n============================================")
+        print("====              Ciudades              ====")
+        print("============================================")
+        ManejadorXml.ListaCiudades.ListarCiudades()
+        print("\n============================================")
+        print("====               Robots               ====")
+        print("============================================")
+        ManejadorXml.ListaRobots.ListarRobots()
     elif menu == 3:
         pass
     elif menu == 4:

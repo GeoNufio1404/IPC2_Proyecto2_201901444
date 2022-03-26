@@ -19,7 +19,13 @@ class ListaRobots:
 
     def ListarRobots(self):
         head = self.Head
-        print(f"{head.Index}. - Nombre: {head.Clase.Nombre} - Tipo: {head.Clase.Tipo} - Capacidad: {head.Clase.Capacidad}")
+        if head.Clase.Tipo == "ChapinFighter":
+            print(f"{head.Index}. - Nombre: {head.Clase.Nombre} - Tipo: {head.Clase.Tipo} - Capacidad: {head.Clase.Capacidad}")
+        elif head.Clase.Tipo == "ChapinRescue":
+            print(f"{head.Index}. - Nombre: {head.Clase.Nombre} - Tipo: {head.Clase.Tipo}")   
         while head.Siguiente != None:
             head = head.Siguiente
-            print(f"{head.Index}. - Nombre: {head.Clase.Nombre} - Tipo: {head.Clase.Tipo} - Capacidad: {head.Clase.Capacidad}")
+            if head.Clase.Tipo == "ChapinFighter":
+                print(f"{head.Index}. - Nombre: {head.Clase.Nombre} - Tipo: {head.Clase.Tipo} - Capacidad: {head.Clase.Capacidad}")
+            elif head.Clase.Tipo == "ChapinRescue":
+                print(f"{head.Index}. - Nombre: {head.Clase.Nombre} - Tipo: {head.Clase.Tipo}")

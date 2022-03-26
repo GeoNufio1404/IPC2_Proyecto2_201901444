@@ -20,6 +20,8 @@ class ListaCiudades:
     def ListarCiudades(self):
         head = self.Head
         print(f"{head.Index}. - Nombre: {head.Clase.Nombre} - Filas: {head.Clase.Filas} - Columnas: {head.Clase.Columnas}")
+        head.Clase.ListaCasillas.ImprimirCasillas()
         while head.Siguiente != None:
             head = head.Siguiente
             print(f"{head.Index}. - Nombre: {head.Clase.Nombre} - Filas: {head.Clase.Filas} - Columnas: {head.Clase.Columnas}")
+            head.Clase.ListaCasillas.ImprimirCasillas()
