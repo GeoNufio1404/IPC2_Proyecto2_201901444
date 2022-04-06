@@ -28,7 +28,7 @@ def SeleccionarCiudad():
     if menu != 0:
         return ManejadorXml.ListaCiudades.ObtenerCiudad(menu)
 
-def SeleccionarTipoMision(CiudadElegida,IndexEntrada):
+def SeleccionarTipoMision():
     print("\n=================================================")
     print("====             Tipo de Mision              ====")
     print("=================================================")
@@ -53,7 +53,7 @@ def SeleccionarTipoMision(CiudadElegida,IndexEntrada):
             mision = int(mision)
             RobotElegido = ManejadorXml.ListaRobots.ObtenerChapinRescue(mision)
             if RobotElegido != None:
-                CiudadElegida.ListaCasillas.CumplirMision(IndexEntrada,RobotElegido)
+                return RobotElegido
             else:
                 print("Robot no encontrado, intente de nuevo...")
         elif ManejadorXml.ListaRobots.ContChapinRescue == 1:
@@ -62,7 +62,7 @@ def SeleccionarTipoMision(CiudadElegida,IndexEntrada):
             print("============================================")
             ManejadorXml.ListaRobots.ListarChapinRescues()
             RobotElegido = ManejadorXml.ListaRobots.ObtenerUnicoChapinRescue()
-            CiudadElegida.ListaCasillas.CumplirMision(IndexEntrada,RobotElegido)
+            return RobotElegido
         else:
             print("\n==================================================")
             print("==== No hay ningun ChapinRescue para la mision ====")
@@ -80,7 +80,7 @@ def SeleccionarTipoMision(CiudadElegida,IndexEntrada):
             mision = int(mision)
             RobotElegido = ManejadorXml.ListaRobots.ObtenerChapinFighter(mision)
             if RobotElegido != None:
-                CiudadElegida.ListaCasillas.CumplirMision(IndexEntrada,RobotElegido)
+                return RobotElegido
             else:
                 print("Robot no encontrado, intente de nuevo...")
         elif ManejadorXml.ListaRobots.ContChapinFighter == 1:
@@ -89,33 +89,73 @@ def SeleccionarTipoMision(CiudadElegida,IndexEntrada):
             print("============================================")
             ManejadorXml.ListaRobots.ListarChapinFighter()
             RobotElegido = ManejadorXml.ListaRobots.ObtenerUnicoChapinFighter()
-            CiudadElegida.ListaCasillas.CumplirMision(IndexEntrada,RobotElegido)
+            return RobotElegido
         else:
             print("\n===================================================")
             print("==== No hay ningun ChapinFighter para la mision ====")
             print("====================================================")
 
-def RealizarMision():
-    CiudadElegida = SeleccionarCiudad()
-    if CiudadElegida != None:
-        print("\n=================================================")
-        print("====           Seleccionar Entrada           ====")
-        print("=================================================")
-        CiudadElegida.ListaCasillas.ListarEntradas()
-        print("Ingrese el numero de la entrada que desea seleccionar...")
-        IndexEntrada = input(">> ")
-        if IndexEntrada == "" or IndexEntrada == " ":
-            IndexEntrada = 0
-        IndexEntrada = int(IndexEntrada)
-        print(str(CiudadElegida.ListaCasillas.ComprobarEntrada(IndexEntrada)))
-        if bool(CiudadElegida.ListaCasillas.ComprobarEntrada(IndexEntrada)):
-            SeleccionarTipoMision(CiudadElegida,IndexEntrada)
-        else:
-            print("Entrada no disponible...")
-        
+def SeleccionarEntrada(CiudadElegida):
+    print("\n=================================================")
+    print("====           Seleccionar Entrada           ====")
+    print("=================================================")
+    CiudadElegida.ListaCasillas.ListarEntradas()
+    print("Ingrese el numero de la entrada que desea seleccionar...")
+    IndexEntrada = input(">> ")
+    if IndexEntrada == "" or IndexEntrada == " ":
+        IndexEntrada = 0
+    IndexEntrada = int(IndexEntrada)
+    if bool(CiudadElegida.ListaCasillas.ComprobarEntrada(IndexEntrada)):
+        return IndexEntrada
     else:
-        print("Ciudad no encontrada, intente de nuevo...")
+        print("Entrada no disponible...")
 
+def SeleccionarRecurso(CiudadElegida):
+    print("\n=================================================")
+    print("====           Seleccionar Recurso           ====")
+    print("=================================================")
+    CiudadElegida.ListaCasillas.ListarRecursos()
+    print("Ingrese el numero de el recurso que desea seleccionar...")
+    Index = input(">> ")
+    if Index == "" or Index == " ":
+        Index = 0
+    Index = int(Index)
+    if bool(CiudadElegida.ListaCasillas.ComprobarRecurso(Index)):
+        return Index
+    else:
+        print("Recurso no disponible...")
+
+def SeleccionarUnidadCivil(CiudadElegida):
+    print("\n=================================================")
+    print("====         Seleccionar Unidad Civil        ====")
+    print("=================================================")
+    CiudadElegida.ListaCasillas.ListarUnidadesCiviles()
+    print("Ingrese el numero de la Unidad Civil que desea seleccionar...")
+    Index = input(">> ")
+    if Index == "" or Index == " ":
+        Index = 0
+    Index = int(Index)
+    if bool(CiudadElegida.ListaCasillas.ComprobarUnidadCivil(Index)):
+        return Index
+    else:
+        print("Recurso no disponible...")
+
+def RealizarMision():
+    RobotElegido = SeleccionarTipoMision()
+    if RobotElegido != None:
+        CiudadElegida = SeleccionarCiudad()
+        if CiudadElegida != None:
+            IndexEntrada = SeleccionarEntrada(CiudadElegida)
+            if RobotElegido.Tipo == "ChapinRescue":
+                IndexFin = SeleccionarUnidadCivil(CiudadElegida)
+                CiudadElegida.ListaCasillas.CumplirMisionUnidadCivil(IndexEntrada,RobotElegido,IndexFin)
+            elif RobotElegido.Tipo == "ChapinFighter":
+                IndexFin = SeleccionarRecurso(CiudadElegida)
+                CiudadElegida.ListaCasillas.CumplirMisionRecursos(IndexEntrada,RobotElegido,IndexFin)
+        else:
+            print("Ciudad no encontrada, intente de nuevo...")
+    else:
+        print("Robot no encontrado...")
 
 def MenuPrincipal():
     os.system("cls")
